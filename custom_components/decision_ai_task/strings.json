@@ -1,0 +1,112 @@
+{
+  "config": {
+    "abort": {
+      "single_instance_allowed": "[%key:common::config_flow::abort::single_instance_allowed%]"
+    },
+    "step": {
+      "user": {
+        "description": "Adds the **Generate description** action to AI Task. It works with any AI Task entity that can generate data."
+      }
+    }
+  },
+  "exceptions": {
+    "device_not_found": {
+      "message": "Device {device_id} not found"
+    },
+    "entity_missing": {
+      "message": "AI Task entity {entity_id} not found"
+    },
+    "entity_not_found": {
+      "message": "Entity {entity_id} has no state"
+    },
+    "invalid_response": {
+      "message": "The AI returned a response that does not match the questions: {error}"
+    },
+    "no_entity": {
+      "message": "No entity_id provided and no preferred AI Task entity set"
+    },
+    "not_supported": {
+      "message": "AI Task entity {entity_id} does not support generating data"
+    },
+    "unstructured_response": {
+      "message": "The AI did not return structured data"
+    }
+  },
+  "selector": {
+    "description_question": {
+      "fields": {
+        "key": {
+          "description": "Key of the answer in the response. Derived from the question when omitted.",
+          "name": "Key"
+        },
+        "max": {
+          "description": "Score questions: highest score. Defaults to 10.",
+          "name": "Maximum"
+        },
+        "min": {
+          "description": "Score questions: lowest score. Defaults to 0.",
+          "name": "Minimum"
+        },
+        "multiple": {
+          "description": "Choice questions: allow more than one option.",
+          "name": "Multiple"
+        },
+        "options": {
+          "description": "Choice questions: the options to choose from (at least two).",
+          "name": "Options"
+        },
+        "question": {
+          "description": "The question the AI must answer.",
+          "name": "Question"
+        },
+        "required": {
+          "description": "Whether the AI must answer. Defaults to true.",
+          "name": "Required"
+        },
+        "step": {
+          "description": "Score questions: score increment. Defaults to 1.",
+          "name": "Step"
+        }
+      }
+    },
+    "description_question_type": {
+      "choices": {
+        "boolean": "Yes / no",
+        "choice": "Choice",
+        "score": "Score"
+      }
+    }
+  },
+  "services": {
+    "generate_description": {
+      "description": "Uses AI to describe the state of entities and devices, and answer questions about it.",
+      "fields": {
+        "devices": {
+          "description": "Devices whose entities' states are given to the AI.",
+          "name": "Devices"
+        },
+        "entities": {
+          "description": "Entities whose states are given to the AI.",
+          "name": "Entities"
+        },
+        "entity_id": {
+          "description": "Entity ID to run the task on. If not provided, the preferred entity will be used.",
+          "name": "Entity ID"
+        },
+        "prompt": {
+          "description": "What the AI should describe or decide.",
+          "name": "Prompt"
+        },
+        "questions": {
+          "description": "Questions answered alongside the description. Choose a type for each: yes/no, choice (pick from options) or score (number in a range).",
+          "name": "Questions"
+        },
+        "task_name": {
+          "description": "Name of the task.",
+          "name": "Task name"
+        }
+      },
+      "name": "Generate description"
+    }
+  }
+}

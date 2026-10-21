@@ -1,0 +1,7 @@
+{
+  "services": {
+    "generate_description": {
+      "service": "mdi:text-box-search-outline"
+    }
+  }
+}

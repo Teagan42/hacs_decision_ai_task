@@ -1,0 +1,14 @@
+# Pins homeassistant==2026.2.3 transitively.
+pytest-homeassistant-custom-component==0.13.316
+
+# Requirements of ai_task's dependency chain (conversation, camera, media_source).
+hassil==3.5.0
+home-assistant-intents==2026.1.28
+PyTurboJPEG==1.8.0
+av==16.0.1
+numpy==2.3.2
+ha-ffmpeg==3.2.2
+home-assistant-frontend==20260128.6
+pymicro-vad==1.0.1
+pyspeex-noise==1.0.2
+mutagen==1.47.0
