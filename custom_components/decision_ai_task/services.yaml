@@ -1,0 +1,89 @@
+# Registered as ai_task.generate_description, not decision_ai_task.*.
+# Core only reads services.yaml for the domain owner, so __init__.py loads this
+# file itself and hands it to async_set_service_schema.
+generate_description:
+  fields:
+    task_name:
+      example: "house check"
+      required: true
+      selector:
+        text:
+    prompt:
+      example: "Is the house ready for bed? Describe anything that still needs attention."
+      required: true
+      selector:
+        text:
+          multiline: true
+    entity_id:
+      required: false
+      selector:
+        entity:
+          filter:
+            domain: ai_task
+            supported_features:
+              - ai_task.AITaskEntityFeature.GENERATE_DATA
+    entities:
+      required: false
+      example: "lock.front_door, binary_sensor.garage_door"
+      selector:
+        entity:
+          multiple: true
+    devices:
+      required: false
+      selector:
+        device:
+          multiple: true
+    questions:
+      required: false
+      example: >-
+        [{"type": "boolean", "key": "secure", "question": "Is the house secure?"},
+        {"type": "choice", "key": "priority", "question": "What needs attention first?", "options": ["doors", "lights", "climate"]},
+        {"type": "score", "key": "readiness", "question": "How ready is the house for bed?", "min": 0, "max": 10}]
+      selector:
+        object:
+          multiple: true
+          label_field: question
+          description_field: type
+          translation_key: description_question
+          fields:
+            type:
+              required: true
+              selector:
+                select:
+                  mode: dropdown
+                  translation_key: description_question_type
+                  options:
+                    - boolean
+                    - choice
+                    - score
+            question:
+              required: true
+              selector:
+                text:
+            key:
+              selector:
+                text:
+            required:
+              selector:
+                boolean:
+            options:
+              selector:
+                text:
+                  multiple: true
+            multiple:
+              selector:
+                boolean:
+            min:
+              selector:
+                number:
+                  mode: box
+            max:
+              selector:
+                number:
+                  mode: box
+            step:
+              selector:
+                number:
+                  mode: box
+                  min: 0
+                  step: any

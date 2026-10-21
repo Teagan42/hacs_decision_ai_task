@@ -1,0 +1,5 @@
+{
+  "name": "AI Task: Generate Description",
+  "homeassistant": "2026.1.0",
+  "render_readme": true
+}
