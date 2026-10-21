@@ -1,5 +1,8 @@
 # AI Task: Generate Description
 
+[![Open your Home Assistant instance and open this repository in HACS.](https://my.home-assistant.io/badges/hacs_repository.svg)](https://my.home-assistant.io/redirect/hacs_repository/?owner=Teagan42&repository=hacs_decision_ai_task&category=integration)
+[![Open your Home Assistant instance and start setting up AI Task: Generate Description.](https://my.home-assistant.io/badges/config_flow_start.svg)](https://my.home-assistant.io/redirect/config_flow_start/?domain=decision_ai_task)
+
 Adds a **Generate description** action, `ai_task.generate_description`, to Home Assistant's
 built-in [AI Task](https://www.home-assistant.io/integrations/ai_task) integration.
 
@@ -12,10 +15,11 @@ Ollama, …). You don't need to change the provider.
 
 ## Installation
 
-1. HACS → ⋮ → **Custom repositories** → add `https://github.com/teagan42/hacs_decision_ai_task`
-   as an **Integration**.
+1. Click the **Open in HACS** button above, or go to HACS → ⋮ → **Custom repositories** and add
+   `https://github.com/Teagan42/hacs_decision_ai_task` as an **Integration**.
 2. Install **AI Task: Generate Description** and restart Home Assistant.
-3. **Settings → Devices & services → Add integration → AI Task: Generate Description**.
+3. Click the **Add integration** button above, or go to **Settings → Devices & services → Add
+   integration → AI Task: Generate Description**.
 
 Requires Home Assistant 2026.1 or newer and an AI Task entity that supports generating data.
 
@@ -76,6 +80,12 @@ All types also accept:
   text (`Is it on?` → `is_it_on`). `description` is reserved.
 - `required` (default `true`): whether the model must answer.
 
+In the action editor, each question is a **choose** selector: pick the type, then fill in that
+type's fields. The UI sends each question as
+`{question: {active_choice: score, score: {question: ..., max: 5}}}`. That shape, the bare
+`{active_choice: ..., <type>: {...}}`, and the flat `{type: score, ...}` form shown above are
+all accepted and mean the same thing.
+
 If you set a field that doesn't belong to the type (for example `options` on a `boolean`), the
 call fails. Scores whose `min`, `max` and `step` are all whole numbers come back as integers.
 
@@ -88,7 +98,11 @@ By default, `generate_description` runs on top of the provider's `generate_data`
 provider can take over the task by overriding the hook this integration adds to `AITaskEntity`:
 
 ```python
-from custom_components.decision_ai_task import GenDescriptionTask, GenDescriptionTaskResult
+from custom_components.decision_ai_task import (
+    GenDescriptionTask,
+    GenDescriptionTaskResult,
+)
+
 
 class MyAITaskEntity(AITaskEntity):
     async def _async_generate_description(

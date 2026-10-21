@@ -29,6 +29,9 @@ QUESTION_MIN: Final = "min"
 QUESTION_MAX: Final = "max"
 QUESTION_STEP: Final = "step"
 
+# Key the choose selector uses to name the selected member of the union.
+ACTIVE_CHOICE: Final = "active_choice"
+
 # The structured output always carries the free-form description under this key,
 # so a question may not claim it.
 RESERVED_KEYS: Final = frozenset({ATTR_DESCRIPTION})

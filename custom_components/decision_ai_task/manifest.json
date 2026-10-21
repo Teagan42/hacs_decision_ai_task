@@ -1,9 +1,13 @@
 {
   "domain": "decision_ai_task",
   "name": "AI Task: Generate Description",
-  "codeowners": ["@teagan42"],
+  "codeowners": [
+    "@teagan42"
+  ],
   "config_flow": true,
-  "dependencies": ["ai_task"],
+  "dependencies": [
+    "ai_task"
+  ],
   "documentation": "https://github.com/teagan42/hacs_decision_ai_task",
   "integration_type": "service",
   "iot_class": "calculated",

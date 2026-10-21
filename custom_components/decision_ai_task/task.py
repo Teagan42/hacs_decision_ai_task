@@ -29,6 +29,7 @@ from homeassistant.util import dt as dt_util, slugify
 import voluptuous as vol
 
 from .const import (
+    ACTIVE_CHOICE,
     ATTR_DESCRIPTION,
     DOMAIN,
     IGNORED_ATTRIBUTES,
@@ -89,10 +90,31 @@ _QUESTION_SCHEMAS: dict[QuestionType, vol.Schema] = {
 }
 
 
-def _validate_question(value: Any) -> dict[str, Any]:
-    """Validate one member of the question union, dispatching on its type."""
+def _normalize_question(value: Any) -> dict[str, Any]:
+    """Flatten the choose selector's shape into ``{"type": ..., **fields}``.
+
+    The UI sends each list item as ``{"question": {"active_choice": "score",
+    "score": {...}}}``; YAML users can write that, the bare choose value, or the
+    flat form directly.
+    """
     if not isinstance(value, dict):
         raise vol.Invalid("question must be a mapping")
+    if isinstance(value.get(QUESTION_TEXT), dict):
+        if len(value) != 1:
+            raise vol.Invalid("a chosen question must be the only field")
+        value = value[QUESTION_TEXT]
+    if ACTIVE_CHOICE in value:
+        choice = value[ACTIVE_CHOICE]
+        if not isinstance(fields := value.get(choice), dict):
+            raise vol.Invalid(f"missing fields for question type {choice!r}")
+        value = {**fields, QUESTION_TYPE: choice}
+    # The UI leaves cleared optional fields as null.
+    return {key: item for key, item in value.items() if item is not None}
+
+
+def _validate_question(value: Any) -> dict[str, Any]:
+    """Validate one member of the question union, dispatching on its type."""
+    value = _normalize_question(value)
     try:
         question_type = QuestionType(value.get(QUESTION_TYPE))
     except ValueError:

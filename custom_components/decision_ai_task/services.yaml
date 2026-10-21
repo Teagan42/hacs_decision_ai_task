@@ -42,48 +42,77 @@ generate_description:
       selector:
         object:
           multiple: true
-          label_field: question
-          description_field: type
-          translation_key: description_question
           fields:
-            type:
-              required: true
-              selector:
-                select:
-                  mode: dropdown
-                  translation_key: description_question_type
-                  options:
-                    - boolean
-                    - choice
-                    - score
             question:
               required: true
               selector:
-                text:
-            key:
-              selector:
-                text:
-            required:
-              selector:
-                boolean:
-            options:
-              selector:
-                text:
-                  multiple: true
-            multiple:
-              selector:
-                boolean:
-            min:
-              selector:
-                number:
-                  mode: box
-            max:
-              selector:
-                number:
-                  mode: box
-            step:
-              selector:
-                number:
-                  mode: box
-                  min: 0
-                  step: any
+                choose:
+                  translation_key: description_question_type
+                  choices:
+                    boolean:
+                      selector:
+                        object:
+                          translation_key: description_question
+                          fields:
+                            question:
+                              required: true
+                              selector:
+                                text:
+                            key:
+                              selector:
+                                text:
+                            required:
+                              selector:
+                                boolean:
+                    choice:
+                      selector:
+                        object:
+                          translation_key: description_question
+                          fields:
+                            question:
+                              required: true
+                              selector:
+                                text:
+                            key:
+                              selector:
+                                text:
+                            required:
+                              selector:
+                                boolean:
+                            options:
+                              required: true
+                              selector:
+                                text:
+                                  multiple: true
+                            multiple:
+                              selector:
+                                boolean:
+                    score:
+                      selector:
+                        object:
+                          translation_key: description_question
+                          fields:
+                            question:
+                              required: true
+                              selector:
+                                text:
+                            key:
+                              selector:
+                                text:
+                            required:
+                              selector:
+                                boolean:
+                            min:
+                              selector:
+                                number:
+                                  mode: box
+                            max:
+                              selector:
+                                number:
+                                  mode: box
+                            step:
+                              selector:
+                                number:
+                                  mode: box
+                                  min: 0
+                                  step: any

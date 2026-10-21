@@ -85,7 +85,7 @@ async def test_translations_and_icons_merged(
         hass, "en", "selector", ["ai_task"]
     )
     assert (
-        selectors["component.ai_task.selector.description_question_type.options.score"]
+        selectors["component.ai_task.selector.description_question_type.choices.score"]
         == "Score"
     )
 
@@ -318,3 +318,33 @@ def test_question_keys_derived() -> None:
         "question_5",
         "description_2",
     ]
+
+
+def test_choose_selector_shapes() -> None:
+    """UI list items, bare choose values and the flat form are equivalent."""
+    flat = {"type": "score", "key": "s", "question": "?", "max": 5}
+    choose = {
+        "active_choice": "score",
+        "score": {"key": "s", "question": "?", "max": 5},
+    }
+    ui = {"question": {**choose, "score": {**choose["score"], "step": None}}}
+    assert (
+        QUESTIONS_SCHEMA([flat]) == QUESTIONS_SCHEMA([choose]) == QUESTIONS_SCHEMA([ui])
+    )
+
+
+@pytest.mark.parametrize(
+    ("question", "error"),
+    [
+        ({"active_choice": "score"}, "missing fields"),
+        ({"active_choice": "rating", "rating": {"question": "?"}}, "must be one of"),
+        (
+            {"question": {"active_choice": "boolean", "boolean": {}}, "key": "x"},
+            "only field",
+        ),
+    ],
+)
+def test_choose_selector_invalid(question: dict[str, Any], error: str) -> None:
+    """Malformed choose values are rejected."""
+    with pytest.raises(vol.Invalid, match=error):
+        QUESTIONS_SCHEMA([question])

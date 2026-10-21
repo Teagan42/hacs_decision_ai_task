@@ -66,15 +66,11 @@
         "step": {
           "description": "Score questions: score increment. Defaults to 1.",
           "name": "Step"
-        },
-        "type": {
-          "description": "Kind of answer expected.",
-          "name": "Type"
         }
       }
     },
     "description_question_type": {
-      "options": {
+      "choices": {
         "boolean": "Yes / no",
         "choice": "Choice",
         "score": "Score"
@@ -102,7 +98,7 @@
           "name": "Prompt"
         },
         "questions": {
-          "description": "Questions answered alongside the description. Each has a type: boolean (yes/no), choice (pick from options) or score (number in a range).",
+          "description": "Questions answered alongside the description. Choose a type for each: yes/no, choice (pick from options) or score (number in a range).",
           "name": "Questions"
         },
         "task_name": {
